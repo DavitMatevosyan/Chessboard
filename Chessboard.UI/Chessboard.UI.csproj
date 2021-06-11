@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\boardRaw.png" />
+    <None Remove="Images\icon.png" />
+    <None Remove="Images\Standard\blackBishop.png" />
+    <None Remove="Images\Standard\blackKing.png" />
+    <None Remove="Images\Standard\blackKnight.png" />
+    <None Remove="Images\Standard\blackPawn.png" />
+    <None Remove="Images\Standard\blackQueen.png" />
+    <None Remove="Images\Standard\blackRook.png" />
+    <None Remove="Images\Standard\whiteBishop.png" />
+    <None Remove="Images\Standard\whiteKing.png" />
+    <None Remove="Images\Standard\whiteKnight.png" />
+    <None Remove="Images\Standard\whitePawn.png" />
+    <None Remove="Images\Standard\whiteQueen.png" />
+    <None Remove="Images\Standard\whiteRook.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chessboard.Logic\Chessboard.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\boardRaw.png" />
+    <Resource Include="Images\icon.png" />
+    <Resource Include="Images\Standard\blackBishop.png" />
+    <Resource Include="Images\Standard\blackKing.png" />
+    <Resource Include="Images\Standard\blackKnight.png" />
+    <Resource Include="Images\Standard\blackPawn.png" />
+    <Resource Include="Images\Standard\blackQueen.png" />
+    <Resource Include="Images\Standard\blackRook.png" />
+    <Resource Include="Images\Standard\whiteBishop.png" />
+    <Resource Include="Images\Standard\whiteKing.png" />
+    <Resource Include="Images\Standard\whiteKnight.png" />
+    <Resource Include="Images\Standard\whitePawn.png" />
+    <Resource Include="Images\Standard\whiteQueen.png" />
+    <Resource Include="Images\Standard\whiteRook.png" />
+  </ItemGroup>
+
+</Project>

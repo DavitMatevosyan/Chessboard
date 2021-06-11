@@ -1,0 +1,191 @@
+﻿<Window x:Class="Chessboard.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chessboard.UI"
+        mc:Ignorable="d" 
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Title="Chess" Height="550" Width="820" Icon="/Images/icon.png">
+    <StackPanel Background="#282828" Orientation="Horizontal">
+        <Grid  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30 30 0 0">
+            <Image Name="boardImage" Source="/Images/boardRaw.png" Width="450"/>
+            <Grid Name="backBoardgrid" VerticalAlignment="Top" HorizontalAlignment="Left" Width="450" Height="450">
+            </Grid>
+            <!--Board-->
+            <Grid Margin="45" Name="boardGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
+        <Grid Background="#434343" Height="450" Width="275" VerticalAlignment="Top" Margin="30 30 0 0" >
+            <TabControl Background="#636363" BorderThickness="0" >
+                <!--Main Game Tab -->
+                <TabItem Header="Game Info" Background="#838383" Foreground="#3a5b50" >
+                    <Grid Background="#282828">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--Player 1 Time-->
+                        <Border Grid.Row="0" Margin="5 2 5 0" CornerRadius="10" Background="#9cd4ff">
+                            <Label Name="lbl_Player1Time" Margin="10" Content="WRITE TIME HERE" Background="#9cd4ff" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
+                        </Border>
+                        <!--Player 1 Info-->
+                        <Border Grid.Row="1" Margin="5 2 5 0" CornerRadius="10 10 10 10" Background="#434343">
+                            <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                                <Label Width="25" Height="25" Background="Red"/>
+                                <Label Content="PLAYER NAME" VerticalContentAlignment="Center" Foreground="#d5d5d5"/>
+                                <Button Content="Forfeit" Foreground="#d5d5d5" Background="#282828" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
+                                <Button Content="Draw" Foreground="#d5d5d5" Background="#282828" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
+                                <Label Content="SCORE" Margin="5 0 0 0" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#d5d5d5"/>
+                            </StackPanel>
+                        </Border>
+                        <!--Current Game History-->
+                        <!--Add Transparent Image or disable clicking-->
+                        <Border Grid.Row="2" Margin="5 2 5 0" BorderThickness="0" CornerRadius="10 10 10 10" Background="#434343">
+                            <ListView x:Name="ListBox_GameHistory" Background="#434343" BorderThickness="0" Margin="5">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="id" DisplayMemberBinding="{Binding ID}" Width="20"/>
+                                        <GridViewColumn Header="Whites" DisplayMemberBinding="{Binding WhiteMove}" Width="110"/>
+                                        <GridViewColumn Header="Blacks" DisplayMemberBinding="{Binding BlackMove}" Width="110"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Border>
+                        <!--Player 2 Info-->
+                        <Border Grid.Row="3" Margin="5 2 5 0" CornerRadius="10 10 10 10" Background="#434343">
+                            <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                                <Label Width="25" Height="25" Background="Red"/>
+                                <Label Content="PLAYER NAME" VerticalContentAlignment="Center" Foreground="#d5d5d5"/>
+                                <Button Content="Forfeit" Foreground="#d5d5d5" Background="#282828" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
+                                <Button Content="Draw" Foreground="#d5d5d5" Background="#282828" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
+                                <Label Content="SCORE" Margin="5 0 0 0" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="#d5d5d5"/>
+                            </StackPanel>
+                        </Border>
+                        <!--Player 2 Time-->
+                        <Border Grid.Row="4" Margin="5 2 5 0" CornerRadius="10" Background="#9cd4ff">
+                            <Label Margin="10" Content="WRITE TIME HERE" Background="#9cd4ff" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
+                        </Border>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Margin="3 0 0 0" Header="Configuration"  Background="#838383" Foreground="#3a5b50" >
+                    <Grid Background="#434343">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*"/>
+                            <!--<RowDefinition Height="*"/>-->
+                        </Grid.RowDefinitions>
+                        <!--Choosing Game Timer Type-->
+                        <Border Grid.Row="0" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Margin="10">
+                                <Label Margin="20 0 0 0" Content="Timer Type:" Foreground="#d5d5d5"/>
+                                <ComboBox Margin="40 0 40 0" HorizontalContentAlignment="Center">
+                                    <ComboBoxItem Content="DEFAULT ITEM" IsSelected="True"/>
+                                    <ComboBoxItem Content="SECOND ITEM" />
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                        <!--Adding Game Timer Name-->
+                        <Border Grid.Row="2" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Orientation="Vertical">
+                                <Label Margin="10 0 0 0" Content="Add new Timer" Foreground="#d5d5d5"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Margin="10" Content="Game Timer Name:" Foreground="#d5d5d5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12"/>
+                                    <TextBox Width="100" Height="30" BorderThickness="0"  VerticalContentAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <!--Adding Game Timer Time-->
+                        <!--Add Clicking on textbox so that it deletes text if letters cant add letters-->
+                        <Border Grid.Row="3" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Orientation="Vertical">
+                                <Label Margin="10 0 0 0" Content="Timer Time:" Foreground="#d5d5d5"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Width="40" Text="hh" HorizontalContentAlignment="Center" Margin="40 0 0 0" Height="30" BorderThickness="0"  VerticalContentAlignment="Center" />
+                                    <Label Content=":" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                    <TextBox Width="40" Text="mm" HorizontalContentAlignment="Center" Height="30"  BorderThickness="0"  VerticalContentAlignment="Center" />
+                                    <Label Content=":" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                    <TextBox Width="40" Text="ss" HorizontalContentAlignment="Center" Height="30"  BorderThickness="0"  VerticalContentAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <!--Timer increment-->
+                        <Border Grid.Row="4" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Orientation="Vertical">
+                                <Label Margin="10 0 0 0" Content="Timer Increment:" Foreground="#d5d5d5"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Width="40" Margin="80 0 0 0" Text="mm" HorizontalContentAlignment="Center" Height="30"  BorderThickness="0"  VerticalContentAlignment="Center" />
+                                    <Label Content=":" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                    <TextBox Width="40" Text="ss" HorizontalContentAlignment="Center" Height="30"  BorderThickness="0"  VerticalContentAlignment="Center" />
+                                </StackPanel>
+                                <!--Add Timer Mode-->
+                                <Button Content="Add New Timer" Width="100" Height="30" FontSize="13" HorizontalAlignment="Right" Margin="0 20 20 0" Background="#434343" Foreground="#d5d5d5" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Margin="3 0 0 0" Header="Game Type"  Background="#838383" Foreground="#3a5b50" >
+                    <Grid Background="#434343">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--Game Type Selection-->
+                        <Border Grid.Row="0" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Orientation="Vertical">
+                                <Button Name="btnPvp" Content="Player vs Player" Click="PvpGameModeSelected" Foreground="#d5d5d5" Background="#434343" Width="140" HorizontalAlignment="Left" Margin="10 15 0 0"/>
+                                <Button Name="btnPvc1" Content="Queen Rook Mate" Click="PvcGameModeSelected" Foreground="#d5d5d5" Background="#434343" Width="140" HorizontalAlignment="Left" Margin="10 10 0 0"/>
+                                <Button Name="btnPvc2" Content="Queen Two Rooks Mate" Click="PvcGameModeSelected" Foreground="#d5d5d5" Background="#434343" Width="140" HorizontalAlignment="Left" Margin="10 10 0 0"/>
+                                <Button Name="btnKnight" Content="Knight Move Calculator" Foreground="#d5d5d5" Background="#434343" Width="140" HorizontalAlignment="Left" Margin="10 10 0 0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Visibility="Hidden" Name="PVCborder" Grid.Row="1" Margin="5 2 5 0" CornerRadius="10" Background="#282828">
+                            <StackPanel Orientation="Vertical">
+                                <Label Content="Placing the Pieces" FontWeight="DemiBold" HorizontalAlignment="Center" Foreground="#d5d5d5" Margin="10 10 10 0" />
+                                <Label Content="By Pressing On A Free Position" HorizontalAlignment="Center" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                <Label Content="The Order is:" HorizontalAlignment="Center" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                <Label Content="White King, Queen, Rook (second Rook)" HorizontalAlignment="Center" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                                <Label Content="Followed by Black King" HorizontalAlignment="Center" Foreground="#d5d5d5" Margin="10 0 10 0" />
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </StackPanel>
+</Window>
+
+<!--Ticking Time color #9cd4ff
+    Waiting Time color #9cd4ff
+    Change Button Hovering Color
+     -->
