@@ -1,5 +1,6 @@
 {
   "ConnectionStrings": {
-    "DbConnection": "Server=DESKTOP-0ERH0I4\\SQLEXPRESS;Database=Chess;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DbConnection": "Server=DESKTOP-0ERH0I4\\SQLEXPRESS;Database=Chess;Trusted_Connection=True;MultipleActiveResultSets=true",
+    "ChessConnection": "Server=(localdb)\\MSSQLLocalDB;Database=Chess;Trusted_Connection=True;"
   }
 }

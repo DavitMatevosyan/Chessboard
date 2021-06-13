@@ -1,4 +1,5 @@
-﻿using Chessboard.Models.Pieces;
+﻿using Chessboard.Data;
+using Chessboard.Models.Pieces;
 using Chessboard.Models.Positions;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Chessboard.Models
 
         public GameInstance()
         {
+            ChessContext context = new ChessContext();
             WhitePieces = new List<IPiece>();
             BlackPieces = new List<IPiece>();
             AllPieces = new List<IPiece>();

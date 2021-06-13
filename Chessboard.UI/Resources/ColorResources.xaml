@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="FontColor" Color="#3a5b50"/>
+    <SolidColorBrush x:Key="FontBrightColor" Color="#d5d5d5"/>
+
+    <SolidColorBrush x:Key="BackColor" Color = "#282828" />
+    <SolidColorBrush x:Key="BackBrightColor" Color="#434343"/>
+    <SolidColorBrush x:Key="BackSubColor" Color="#636363"/>
+    <SolidColorBrush x:Key="TabColor" Color="#838383"/>
+    <SolidColorBrush x:Key="TimerColor" Color="#9cd4ff"/>
+    <SolidColorBrush x:Key="ButtonHoverColor" Color="AntiqueWhite"/>
+
+
+</ResourceDictionary>
