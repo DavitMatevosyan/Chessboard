@@ -2,11 +2,9 @@
 {
     public interface IChessContext
     {
-
-
         #region CRUD User
 
-        int AddUser();
+        int AddUser(User user);
         int GetUser(int id);
         int GetAllUsers();
         int UpdateUser(int id);
@@ -16,7 +14,7 @@
 
         #region CRUD Game
 
-        int AddGame();
+        int AddGame(Game game);
         int GetGame(int id);
         int GetAllGames();
         int GetAllGames(int userId);

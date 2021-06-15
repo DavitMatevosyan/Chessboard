@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ConnectionSettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Connections\ConnectionSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

@@ -1,0 +1,3 @@
+{
+    "ChessConnection": "Server=(localdb)\\MSSQLLocalDB;Database=Chess;Trusted_Connection=True;"
+}

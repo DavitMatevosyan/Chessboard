@@ -2,7 +2,7 @@
 {
     public interface IGameContext
     {
-        int AddGame();
+        int AddGame(Game game);
         int GetGame(int id);
         int GetAllGames();
         int GetAllGames(int userId);
