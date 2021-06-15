@@ -5,11 +5,23 @@ using System.Data.SqlClient;
 
 namespace Chessboard.Data
 {
+    /// <summary>
+    /// The Database context for the production environment, which uses real database objects
+    /// </summary>
     public class ChessContext : IChessContext
     {
+        /// <summary>
+        /// Sql client provider
+        /// </summary>
         DbProviderFactory factory;
+        /// <summary>
+        /// My connection string
+        /// </summary>
         string _connectionString;
 
+        /// <summary>
+        /// Default constructor to initialize the DbProviderFactory and connectionString
+        /// </summary>
         public ChessContext()
         {
             factory = SqlClientFactory.Instance;
@@ -19,26 +31,54 @@ namespace Chessboard.Data
 
         #region Add Game/User
 
-        public int AddGame()
+        public int AddGame(Game game)
         {
             throw new NotImplementedException();
         }
 
-        public int AddUser()
+        /// <summary>
+        /// Adds a new user to the Production Database
+        /// </summary>
+        /// <param name="user">The user that will be added</param>
+        /// <returns>1 if succeeded, -1 if not</returns>
+        public int AddUser(User user)
         {
             using (DbConnection conn = factory.CreateConnection())
             {
                 conn.ConnectionString = _connectionString;
                 DbCommand command = new SqlCommand();
                 command.CommandType = CommandType.StoredProcedure; // default is Text
-                command.CommandText = "";
+                command.CommandText = GetAddUserCommandText(user);
                 command.Connection = conn;
 
-                command.Connection.Open();
-                command.ExecuteNonQuery();
-                command.Connection.Close();
+                try
+                {
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                    command.Connection.Close();
+                    return 1;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
-            return 1;
+        }
+
+        /// <summary>
+        /// Gets the sql command for adding a new user based on the given <paramref name="user"/>
+        /// </summary>
+        /// <param name="user">the user that will be added</param>
+        /// <returns>the sql command</returns>
+        private string GetAddUserCommandText(User user)
+        {
+            string command = $"Exec Users.AddUser @username = {user.Username}, @passwordHash = {user.PasswordHash}";
+            if (!string.IsNullOrEmpty(user.Email))
+                command += $", @Email = {user.Email}";
+            if (!string.IsNullOrEmpty(user.IconUri))
+                command += $", @IconUri = {user.IconUri}";
+
+            return command;
         }
 
         #endregion
@@ -122,11 +162,6 @@ namespace Chessboard.Data
             }
         }
 
-
-        private void Setup()
-        {
-            IDbConnection dbConnection = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Database=Chess;Trusted_Connection=True;");            
-        }
     }
 
 }
