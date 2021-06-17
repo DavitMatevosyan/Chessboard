@@ -1,11 +1,13 @@
-﻿using Microsoft.Win32;
+﻿using Chessboard.Logic.Data;
+using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Chessboard.UI.Users
 {
     public partial class CreateUserWindow : Window
     {
+        private DataManager _manager;
+
         private string _username = "";
         private string _email = "";
         private string _passwordHash = "";
@@ -15,8 +17,21 @@ namespace Chessboard.UI.Users
         public CreateUserWindow()
         {
             InitializeComponent();
+
+            DataBuilder builder = new DataBuilder();
+            _manager = builder.GetManager();
         }
 
+        public CreateUserWindow(DataManager manager) : this()
+        {
+            _manager = manager;
+        }
+
+        /// <summary>
+        /// Opens file dialog that browses the icon of the user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_BrowseIconClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fd = new OpenFileDialog();
@@ -27,10 +42,14 @@ namespace Chessboard.UI.Users
                 _iconUri = fd.FileName;
         }
 
+        /// <summary>
+        /// Event that is triggered when creating an account
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_CreateAccountClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txt_Username.Text) ||
-                string.IsNullOrEmpty(txt_Password.Password))
+            if (string.IsNullOrEmpty(txt_Username.Text) || string.IsNullOrEmpty(txt_Password.Password))
             {
                 MessageBox.Show("Insufficient Data Entered", "Insufficient Data", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -45,8 +64,20 @@ namespace Chessboard.UI.Users
                     return;
             }
             _email =  txt_Email.Text;
+            if (string.IsNullOrEmpty(_iconUri))
+            {
+                var result = MessageBox.Show("You Didn't choose any Icon.\n Do you want to browse an icon before proceeding?", "Attention", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                    return;
+            }
 
-            MessageBox.Show($"{_username}\n{_email}\n{_passwordHash}");
+            if (_manager.AddUser(_username, _passwordHash, _email, _iconUri) == 1)
+            {
+                _hasCreatedAccount = true;
+                LoginWindow window = new LoginWindow();
+                window.Show();
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -61,9 +92,13 @@ namespace Chessboard.UI.Users
             {
                 result = MessageBox.Show("No accounts were created, Are you sure you want to close?", "Remainder", MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
                 if (result != MessageBoxResult.Yes)
+                {
                     e.Cancel = true;
+                    return;
+                }
             }
-
+            LoginWindow window = new LoginWindow();
+            window.Show();
         }
     }
 }
