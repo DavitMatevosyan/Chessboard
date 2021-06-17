@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chessboard.Models.Hash
+namespace Chessboard.Data.Hash
 {
     public static class Hasher
     {
