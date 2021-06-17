@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -19,6 +20,8 @@ namespace Chessboard.Data
         /// </summary>
         string _connectionString;
 
+        SqlConnection _connection;
+
         /// <summary>
         /// Default constructor to initialize the DbProviderFactory and connectionString
         /// </summary>
@@ -36,20 +39,13 @@ namespace Chessboard.Data
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Adds a new user to the Production Database
-        /// </summary>
-        /// <param name="user">The user that will be added</param>
-        /// <returns>1 if succeeded, -1 if not</returns>
         public int AddUser(User user)
         {
             using (DbConnection conn = factory.CreateConnection())
             {
                 conn.ConnectionString = _connectionString;
                 DbCommand command = new SqlCommand();
-                command.CommandType = CommandType.StoredProcedure; // default is Text
-                command.CommandText = GetAddUserCommandText(user);
-                command.Connection = conn;
+                ConfigureCommand(command, conn, user);
 
                 try
                 {
@@ -58,7 +54,7 @@ namespace Chessboard.Data
                     command.Connection.Close();
                     return 1;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return 0;
                 }
@@ -70,15 +66,21 @@ namespace Chessboard.Data
         /// </summary>
         /// <param name="user">the user that will be added</param>
         /// <returns>the sql command</returns>
-        private string GetAddUserCommandText(User user)
+        private void ConfigureCommand(DbCommand command, DbConnection connection, User user)
         {
-            string command = $"Exec Users.AddUser @username = {user.Username}, @passwordHash = {user.PasswordHash}";
-            if (!string.IsNullOrEmpty(user.Email))
-                command += $", @Email = {user.Email}";
-            if (!string.IsNullOrEmpty(user.IconUri))
-                command += $", @IconUri = {user.IconUri}";
+            command.CommandType = CommandType.StoredProcedure; // default is Text
+            command.CommandText = "Users.AddUser";
+            command.Connection = connection;
 
-            return command;
+            SqlParameter usernameParam = new SqlParameter("@Username", user.Username);
+            SqlParameter emailParam = new SqlParameter("@Email", user.Email);
+            SqlParameter passParam = new SqlParameter("@PasswordHash", user.PasswordHash);
+            SqlParameter iconUriParam = new SqlParameter("@IconUri", user.IconUri);
+
+            command.Parameters.Add(usernameParam);
+            command.Parameters.Add(emailParam);
+            command.Parameters.Add(passParam);
+            command.Parameters.Add(iconUriParam);
         }
 
         #endregion
@@ -99,6 +101,40 @@ namespace Chessboard.Data
 
         #region Get 
 
+        public User GetUser(string username, string passwordHash)
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.ConnectionString = _connectionString;
+                string query = $"SELECT * FROM Users.LogInUser('{username}', '{passwordHash}')";
+                SqlCommand command = new SqlCommand(query, conn);
+
+                try
+                {
+                    conn.Open();
+                    var reader = command.ExecuteReader();
+
+                    User user = new User();
+                    if (reader.Read())
+                    {
+                        user.Id = int.Parse(reader["Id"].ToString());
+                        user.Username = reader["Username"].ToString();
+                        user.Email = reader["Email"].ToString();
+                        user.IconUri = reader["IconUri"].ToString();
+                    }
+
+                    conn.Close();
+                    return user;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+
+
+            }
+        }
+
         public int GetAllGames()
         {
             throw new NotImplementedException();
@@ -109,7 +145,7 @@ namespace Chessboard.Data
             throw new NotImplementedException();
         }
 
-        public int GetAllUsers()
+        public List<User> GetAllUsers()
         {
             throw new NotImplementedException();
         }
@@ -119,7 +155,7 @@ namespace Chessboard.Data
             throw new NotImplementedException();
         }
 
-        public int GetUser(int id)
+        public User GetUser(int id)
         {
             throw new NotImplementedException();
         }
