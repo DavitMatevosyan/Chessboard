@@ -6,6 +6,6 @@
     public static class HasherCaller
     {
         public static string CallHasher(string pass)
-            => Chessboard.Models.Hash.Hasher.GetHash(pass);
+            => Chessboard.Data.Hash.Hasher.GetHash(pass);
     }
 }
