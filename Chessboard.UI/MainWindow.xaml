@@ -48,18 +48,24 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <!--Player 1 Time-->
+                        <!--Player 2 Time-->
                         <Border Grid.Row="0" Margin="5 2 5 0" CornerRadius="10" Background="{DynamicResource TimerColor}">
                             <Label Name="lbl_Player1Time" Margin="10" Content="WRITE TIME HERE" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
                         </Border>
-                        <!--Player 1 Info-->
+                        <!--Player 2 Info-->
                         <Border Grid.Row="1" Margin="5 2 5 0" CornerRadius="10 10 10 10" Background="{DynamicResource BackBrightColor}">
                             <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
                                 <Label Width="25" Height="25" Background="Red"/>
                                 <Label Content="PLAYER NAME" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
-                                <Button Content="Forfeit" Foreground="#d5d5d5" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
-                                <Button Content="Draw" Foreground="#d5d5d5" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
+                                <Button Content="Forfeit" Foreground="{DynamicResource FontBrightColor}" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
+                                <Button Content="Draw" Foreground="{DynamicResource FontBrightColor}" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
                                 <Label Content="SCORE" Margin="5 0 0 0" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Margin="5 2 5 0" CornerRadius="10 10 10 10" Background="{DynamicResource BackBrightColor}">
+                            <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                                <Button Content="Log In Player Two" Click="btn_LogInPlayerTwoClick" Style="{DynamicResource BaseButton}" FontSize="13" Margin="30 0 0 0" VerticalAlignment="Center" BorderThickness="0" />
+                                <Image Source="/Images/Standard/blackBishop.png" Width="35" Margin="15 0 0 0"/>
                             </StackPanel>
                         </Border>
                         <!--Current Game History-->
@@ -75,17 +81,17 @@
                                 </ListView.View>
                             </ListView>
                         </Border>
-                        <!--Player 2 Info-->
+                        <!--Player 1 Info-->
                         <Border Grid.Row="3" Margin="5 2 5 0" CornerRadius="10 10 10 10" Background="{DynamicResource BackBrightColor}">
                             <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
-                                <Label Width="25" Height="25" Background="Red"/>
-                                <Label Content="PLAYER NAME" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
-                                <Button Content="Forfeit" Foreground="{DynamicResource FontBrightColor}" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
-                                <Button Content="Draw" Foreground="{DynamicResource FontBrightColor}" Background="{DynamicResource BackColor}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
-                                <Label Content="SCORE" Margin="5 0 0 0" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
+                                <Image Name="POneIcon" Width="25" Height="25" />
+                                <Label Name="POneUsername" Content="PLAYER NAME" Width="90" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
+                                <Button Content="Forfeit" Style="{DynamicResource BaseButton}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0" />
+                                <Button Content="Draw" Style="{DynamicResource BaseButton}" Margin="5 0 0 2" VerticalAlignment="Bottom" BorderThickness="0"/>
+                                <Label Name="POneScore"  Content="SCORE" Margin="5 0 0 0" HorizontalAlignment="Right" VerticalContentAlignment="Center" Foreground="{DynamicResource FontBrightColor}"/>
                             </StackPanel>
                         </Border>
-                        <!--Player 2 Time-->
+                        <!--Player 1 Time-->
                         <Border Grid.Row="4" Margin="5 2 5 0" CornerRadius="10" Background="{DynamicResource TimerColor}">
                             <Label Margin="10" Content="WRITE TIME HERE" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
                         </Border>

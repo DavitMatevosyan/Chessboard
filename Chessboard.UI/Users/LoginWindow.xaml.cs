@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Chessboard.Logic.Data;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Chessboard.UI.Users
@@ -8,19 +10,38 @@ namespace Chessboard.UI.Users
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private DataManager _manager;
+
+        private string _username;
+        private string _passwordHash;
+
         public LoginWindow()
         {
             InitializeComponent();
-        }
 
-        private void TextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
+            DataBuilder builder = new DataBuilder();
+            _manager = builder.GetManager();
         }
 
         private void btn_LoginClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(txt_Username.Text) || string.IsNullOrEmpty(txt_Password.Password))
+            {
+                MessageBox.Show("Insufficient Data Entered", "Insufficient Data", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            _username = txt_Username.Text;
+            _passwordHash = Logic.HasherCaller.CallHasher(txt_Password.Password);
 
+            if(_manager.LogIn(_username, _passwordHash) == -1)
+            {
+                MessageBox.Show("Incorrect User Data", "Wrong Data", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                return;
+            }
+ 
+            MainWindow window = new MainWindow(_manager);
+            window.Show();
+            this.Close();
         }
 
         private void btn_CreateUserClick(object sender, RoutedEventArgs e)
@@ -28,6 +49,13 @@ namespace Chessboard.UI.Users
             CreateUserWindow signUpWindow = new CreateUserWindow();
             signUpWindow.Show();
             signUpWindow.Activate();
+            this.Close();
+        }
+
+        private void btn_ContinueWithoutLogin(object sender, RoutedEventArgs e)
+        {
+            MainWindow window = new MainWindow();
+            window.Show();
             this.Close();
         }
     }

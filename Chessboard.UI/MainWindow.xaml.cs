@@ -1,4 +1,6 @@
 ﻿using Chessboard.Logic;
+using Chessboard.Logic.Data;
+using Chessboard.UI.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,10 @@ namespace Chessboard.UI
 {
     public partial class MainWindow : Window
     {
+        private UserData _playerOneData;
+        private UserData _playerTwoData;
+        private DataManager _dataManager;
+
         private List<PieceViewModel> _pieces;
         private Manager _manager;
         private PieceViewModel _pressedPiece;
@@ -32,7 +38,29 @@ namespace Chessboard.UI
             _manager = new Manager();
             _pieceImages = new List<PieceVMImage>();
             InitAllPieces();
-   //         ListBox_GameHistory.ItemsSource = _manager.GameHistory;
+        }
+
+        public MainWindow(DataManager manager) : this()
+        {
+            _dataManager = manager;
+            _playerOneData = new UserData()
+            {
+                Username = _dataManager.GetUsername(),
+                Email = _dataManager.GetEmail(),
+                IconUri = _dataManager.GetIcon(),
+                Score = _dataManager.GetScore()
+            };
+            if(!string.IsNullOrEmpty(_playerOneData.IconUri))
+                POneIcon.Source = new BitmapImage(new Uri(_playerOneData.IconUri, UriKind.Absolute));
+            POneUsername.Content = _playerOneData.Username;
+            POneScore.Content = _playerOneData.Score;
+
+        }
+
+        private void btn_LogInPlayerTwoClick(object sender, RoutedEventArgs e)
+        {
+            LoginWindow login = new LoginWindow();
+            login.Show();
         }
 
         #region Game Mode Changing
@@ -237,7 +265,7 @@ namespace Chessboard.UI
                 }
             }
             UpdateBoard(pos);
-         //   ListBox_GameHistory.Items.Add(_manager.LastMove);
+            //   ListBox_GameHistory.Items.Add(_manager.LastMove);
             if (!string.IsNullOrEmpty(_manager.Alerts))
                 MessageBox.Show(_manager.Alerts);
 
