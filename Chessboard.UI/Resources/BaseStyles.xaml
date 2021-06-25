@@ -41,6 +41,13 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="Red" />
                 <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock TextDecorations="Underline" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
         </Style.Triggers>
 
