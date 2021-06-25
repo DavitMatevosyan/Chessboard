@@ -1,7 +1,5 @@
 ﻿using Chessboard.Logic.Data;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Chessboard.UI.Users
 {
@@ -12,6 +10,7 @@ namespace Chessboard.UI.Users
     {
         private DataManager _manager;
 
+        private bool _playerTwo;
         private string _username;
         private string _passwordHash;
 
@@ -21,6 +20,17 @@ namespace Chessboard.UI.Users
 
             DataBuilder builder = new DataBuilder();
             _manager = builder.GetManager();
+            _playerTwo = false;
+        }
+
+        public LoginWindow(DataManager manager)
+        {
+            InitializeComponent();
+
+            lbl_LoginText.Content = "Log in as Player Two";
+            _manager = manager;
+            _playerTwo = true;
+            btn_ContinueWOLogin.Visibility = Visibility.Hidden;
         }
 
         private void btn_LoginClick(object sender, RoutedEventArgs e)
@@ -33,14 +43,28 @@ namespace Chessboard.UI.Users
             _username = txt_Username.Text;
             _passwordHash = Logic.HasherCaller.CallHasher(txt_Password.Password);
 
-            if(_manager.LogIn(_username, _passwordHash) == -1)
+
+            if (_playerTwo)
             {
-                MessageBox.Show("Incorrect User Data", "Wrong Data", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
-                return;
+                if (_manager.LogInPlayerTwo(_username, _passwordHash) == -1)
+                {
+                    MessageBox.Show("Incorrect User Data", "Wrong Data", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                    return;
+                }
             }
- 
-            MainWindow window = new MainWindow(_manager);
-            window.Show();
+            else
+            {
+                if (_manager.LogIn(_username, _passwordHash) == -1)
+                {
+                    MessageBox.Show("Incorrect User Data", "Wrong Data", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                    return;
+                }
+
+                MainWindow window = new MainWindow(_manager);
+                window.Show();
+            }
+
+           
             this.Close();
         }
 

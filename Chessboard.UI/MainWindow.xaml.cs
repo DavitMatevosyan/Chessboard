@@ -1,7 +1,6 @@
 ﻿using Chessboard.Logic;
 using Chessboard.Logic.Data;
 using Chessboard.UI.Users;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,13 +42,8 @@ namespace Chessboard.UI
         public MainWindow(DataManager manager) : this()
         {
             _dataManager = manager;
-            _playerOneData = new UserData()
-            {
-                Username = _dataManager.GetUsername(),
-                Email = _dataManager.GetEmail(),
-                IconUri = _dataManager.GetIcon(),
-                Score = _dataManager.GetScore()
-            };
+            _playerOneData = _dataManager.GetMainUser();
+            _playerTwoData = _dataManager.GetSecondaryUser();
             if(!string.IsNullOrEmpty(_playerOneData.IconUri))
                 POneIcon.Source = new BitmapImage(new Uri(_playerOneData.IconUri, UriKind.Absolute));
             POneUsername.Content = _playerOneData.Username;
@@ -59,8 +53,9 @@ namespace Chessboard.UI
 
         private void btn_LogInPlayerTwoClick(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow();
+            LoginWindow login = new LoginWindow(_dataManager);
             login.Show();
+
         }
 
         #region Game Mode Changing
@@ -199,7 +194,7 @@ namespace Chessboard.UI
                 return;
             }
             _pressedPiece = pieceVM;
-            var moves = JsonConvert.DeserializeObject<IEnumerable<(int col, int row)>>(_manager.GetMoves(pieceVM.Name)).ToList();
+            var moves = _manager.GetMoves(pieceVM).ToList();
             foreach (var item in moves)
             {
                 Label canMoveTo = new Label

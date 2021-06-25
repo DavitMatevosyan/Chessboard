@@ -2,7 +2,6 @@
 using Chessboard.Models;
 using Chessboard.Models.Pieces;
 using Chessboard.Models.Positions;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -220,32 +219,16 @@ namespace Chessboard.Logic
 
         #endregion
 
-
         #region Getting Moves
-
-        /// <summary>
-        /// Gets the possible moves
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>JSON text</returns>
-        public string GetMoves(string name)
-        {
-            var piece = _instance.AllPieces.FirstOrDefault(x => x.Name == name);
-            if (piece is null)
-                return "";
-            var listOfMoves = GetMoves(piece);
-            string JsonMoves = JsonConvert.SerializeObject(listOfMoves);
-            return JsonMoves;
-        }
 
         /// <summary>
         /// Gets all possible moves for the given <paramref name="name"/> Piece
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private IEnumerable<(int col, int row)> GetMoves(IPiece piece)
+        public IEnumerable<(int col, int row)> GetMoves(PieceViewModel piece)
         {
-            var moves = piece.AvailableMoves;
+            var moves = piece._piece.AvailableMoves;
             foreach (var item in moves)
             {
                 yield return (item.Position.Column, item.Position.Row);
